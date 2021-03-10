@@ -9,6 +9,7 @@ import SignIn from "./components/SignIn/SignIn.js";
 import Register from "./components/Register/Register.js";
 import Particles from 'react-particles-js'; //these are the cool particles lib
 import Clarifai from "clarifai"; //these imports Clarifai api
+import {myApi} from "./myApi.js";
 
 //configuring particles options
 const particlesOptions = {
@@ -43,7 +44,7 @@ const particlesOptions = {
 };
 
 const app = new Clarifai.App({
-  apiKey: "89126de9e3404d2d893506395d8ea25f"
+  apiKey: myApi.key
 });
 
 //! identifying all the faces on an image
