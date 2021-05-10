@@ -1,3 +1,5 @@
+//Please note: the code below contains commented out notes and samples that I left here explicitely for the learning purposes, so that I could use it as reference later on. Thank you for checking it out! 
+
 import React, {Component} from "react";
 import './App.css';
 import Navigation from "./components/Navigation/Navigation.js";
@@ -8,8 +10,14 @@ import FaceRecognition from "./components/FaceRecognition/FaceRecognition.js";
 import SignIn from "./components/SignIn/SignIn.js";
 import Register from "./components/Register/Register.js";
 import Particles from 'react-particles-js'; //these are the cool particles lib
-import Clarifai from "clarifai"; //these imports Clarifai api
-import {myApi} from "./myApi.js";
+
+//? setting up clarifai api
+// import Clarifai from "clarifai"; //these imports Clarifai api, removed from here and moved to backend
+import {myApi} from "./myApi.js";  //removed clarifai part from here and moved to backend, only uploadcare remained
+
+// const app = new Clarifai.App({
+//   apiKey: myApi.key
+// }); // removed from here and moved to backend
 
 //configuring particles options
 const particlesOptions = {
@@ -22,7 +30,7 @@ const particlesOptions = {
         }
       },
       number: {
-        value: 40,
+        value: 20,
         density: {
           enable: true,
           value_area: 400
@@ -43,9 +51,7 @@ const particlesOptions = {
       }
 };
 
-const app = new Clarifai.App({
-  apiKey: myApi.key
-});
+
 
 //! identifying all the faces on an image
 class App extends Component {
@@ -57,32 +63,84 @@ class App extends Component {
       box: {},
       boxFaces: [],
       route: "SignIn",
-      isSignedIn: false
+      isSignedIn: false,
+      isHidden: false,
+      user: {
+        id: "",
+        name: "",
+        email: "",
+        entries: 0,
+        joined: ""
+      }
     };
   };
 
-  onInputChange = (event) => {
-    this.setState({input: event.target.value});
-    console.log(event.target.value);
+  //used to get user info upon log in
+  loadUser = (data) => {
+    this.setState({user: {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined
+    }})
   };
 
-  onButtonSubmit = () => {
+  onInputChange = (event) => {
+    this.setState({input: event.target.value, imageUrl: event.target.value, isHidden: true});
+  };
+
+  onFileUpload = (file) => {
+    this.setState({input: file, imageUrl: file, isHidden: true});
+    // console.log("input", this.state.input);
+    // console.log("imageUrl", this.state.imageUrl);
+    // let mainInput = document.getElementsByClassName("mainInput")[0].innerText;
+    // mainInput = file;
+    // console.log(mainInput);
+  };
+
+  onPictureSubmit = () => {
     this.setState({imageUrl: this.state.input});
-    // app.models.predict("89126de9e3404d2d893506395d8ea25f", `${this.state.input}`).then(
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
+    // app.models.predict("89126de9e3404d2d893506395d8ea25f", `${this.state.input}`).then( //removed from here and moved to backend
+    // app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input) //removed from here and moved to backend
+    fetch("http://localhost:3000/imageurl", {
+      method: "post",
+      headers: {"Content-Type" : "application/json"},
+      body: JSON.stringify({input: this.state.input})
+    })
+    .then(response => response.json()) //since now its fetching from server and not from clarifai api that responds already in json
     .then(
       response => {
-        // console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
         this.setState({boxFaces: response.outputs[0].data.regions})
-        // this.displayFaceBox(this.calculateFaceLocation(response));
+        console.log(response);
+        // console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
+        if (response) {
+          fetch ("http://localhost:3000/image", {
+            method: "put",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                id: this.state.user.id,
+                picsSubmitted: this.state.boxFaces.length
+            })
+          })
+          .then(response => response.json())
+          .then(response => {
+            //this way will erase the {name} of the user retrieved on sign in
+            // this.setState({user: {entries: response}})
+            //this way it will update the user object without erasing the {name}
+            //Object.assign() allows us to update the object without recreating it
+            this.setState(Object.assign(this.state.user, {entries: response}))
+            this.setState({isHidden: false})
+          })
+        };
       }
     )
     .catch(err => console.log(err));
   };
 
   onRouteChange = (route) => {
-    if (route === "SignOut") {
-      this.setState({isSignedIn: false});
+    if (route === "SignIn") {
+      this.setState({isSignedIn: false, imageUrl: "", boxFaces: [], input: ""});
     }
     else if (route === "home") {
       this.setState({isSignedIn: true});
@@ -91,29 +149,28 @@ class App extends Component {
   };
 
   render () {
-    //e.g. destructuring this.state to clean things up:
-    // const {isSignedIn, route, imageUrl, box, boxFaces} = this.state;
-    
     return (
       <div className="App">
-        <Particles params={particlesOptions} className="particles" />
+        <Particles params={particlesOptions} className="bg-particles" />
         <Navigation onRouteChange={this.onRouteChange} isSignedIn={this.state.isSignedIn}/>
         {
         this.state.route === "home" 
           ? 
-          <div>
-            <Logo />
-            <Rank />
-            <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-            <FaceRecognition imageUrl={this.state.imageUrl} box={this.state.box} boxFaces={this.state.boxFaces}/>
+          <div className="">
+            <section className="container-logo-and-text">
+              <Logo onRouteChange={this.onRouteChange}/>
+              <Rank name={this.state.user.name} entries={this.state.user.entries} faces={this.state.boxFaces.length}/>
+            </section>
+              <ImageLinkForm onInputChange={this.onInputChange} onPictureSubmit={this.onPictureSubmit} onFileUpload={this.onFileUpload} myApi={myApi} input={this.state.input}/>
+              <FaceRecognition imageUrl={this.state.imageUrl} box={this.state.box} boxFaces={this.state.boxFaces} isHidden={this.state.isHidden}/>
           </div>
           : 
           ( //this () allows adding ternary inside ternary
             this.state.route === "SignIn" 
             ?
-            <SignIn onRouteChange={this.onRouteChange}/>
+            <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
             :
-            <Register onRouteChange={this.onRouteChange}/>
+            <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
           )
         }
       </div>
@@ -139,7 +196,7 @@ export default App;
 //     console.log(event.target.value);
 //   };
 
-//   onButtonSubmit = () => {
+//   onPictureSubmit = () => {
 //     this.setState({imageUrl: this.state.input});
 //     // app.models.predict("89126de9e3404d2d893506395d8ea25f", `${this.state.input}`).then(
 //     app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
@@ -180,7 +237,7 @@ export default App;
 //         <Navigation />
 //         <Logo />
 //         <Rank />
-//         <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
+//         <ImageLinkForm onInputChange={this.onInputChange} onPictureSubmit={this.onPictureSubmit}/>
 //         <FaceRecognition imageUrl={this.state.imageUrl} box={this.state.box}/>
 //       </div>
 //     );

@@ -1,13 +1,17 @@
-import React from "react";
-import "./FaceRecognition.css";
+//Please note: the code below contains commented out notes and samples that I left here explicitely for the learning purposes, so that I could use it as reference later on. Thank you for checking it out! 
 
-const FaceRecognition = ({imageUrl, box, boxFaces}) => {
-    // console.log(boxFaces);
+import React from "react";
+// import "./FaceRecognition.css";
+
+const FaceRecognition = ({imageUrl, box, boxFaces, isHidden}) => {
+    // console.log(boxFaces.length);
     const detectAllFaces = () => {
         if (imageUrl.length !== 0) {
             const image = document.getElementById("inputImage");
             const width = Number(image.width);
             const height = Number(image.height);
+            // console.log("width", width);
+            // console.log("height", height);
             const renderFace = boxFaces.map((face, i) => {
                 // console.log(face.region_info.bounding_box);
                 const clarifaiFace = face.region_info.bounding_box;
@@ -16,7 +20,7 @@ const FaceRecognition = ({imageUrl, box, boxFaces}) => {
                 const rightCol = width - (clarifaiFace.right_col * width);
                 const bottomRow = height - (clarifaiFace.bottom_row * height);
                 return (
-                    <div className="bounding-box" key={i} style={{top: topRow, right: rightCol, bottom: bottomRow, left: leftCol}}></div>
+                    <div className={isHidden ? null : "face-bounding-box"} key={i} style={{top: topRow, right: rightCol, bottom: bottomRow, left: leftCol}}></div>
                 ); 
             })
             return renderFace;
@@ -24,12 +28,11 @@ const FaceRecognition = ({imageUrl, box, boxFaces}) => {
     };
     
     return (
-    <div className="center ma">
-        <div className="absolute mt2">
-            <img id="inputImage" alt="your img" src={imageUrl} width="500px" height="auto"/>
+    <div className="container-face">
+        <div className="absolute">
+            <img id="inputImage" alt="" src={imageUrl}/>
             {/* <div className="bounding-box" style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol}}></div> */}
             {detectAllFaces()}
-            <div className="bounding-box" style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol}}></div>
         </div>
     </div>
     )
