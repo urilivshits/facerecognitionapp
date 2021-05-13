@@ -9,7 +9,8 @@ const Leaderboard = () => {
 
     const showLeaderboard = () => {
         if (!leaderboard) {
-            fetch("http://localhost:3000/leaderboard")
+            // fetch("http://localhost:3000/leaderboard")
+            fetch("https://arcane-badlands-99768.herokuapp.com/leaderboard")
             .then(response => response.json())
             .then(users => {
                 setLeaderboardData(users);
