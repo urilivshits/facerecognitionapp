@@ -134,7 +134,7 @@ const ImageLinkForm = ({onInputChange, onPictureSubmit, onFileUpload, myApi, inp
     return (
         <section className="container-input">
             {/* <p className="f3">This Magic Brain will detect faces in your pictures. Give it a try.</p> */}
-            <div className="shadow-2 bg-input" style={dragging ? {height: "500px"} : {height: "150px"}}>
+            <div className="shadow-2 bg-input" style={dragging ? {height: "500px"} : {height: "auto"}}>
                 {/* <input className="pa2 w-70 center mainInput" type="text" onChange={onInputChange} value={input}/> */}
                 {/* <button className="w-30 grow link ph3 pv2 dib white bg-light-purple" onClick={onPictureSubmit}>Detect face</button> */}
                 <input className="face-input" type="text" onChange={onInputChange} value={input}/>
