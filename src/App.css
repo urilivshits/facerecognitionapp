@@ -176,14 +176,13 @@ section {
 #inputImage {
   max-height: 400px;
   border-radius: 0.5rem;
-  margin: auto;
+  /* margin: auto; */
   /* max-width: min(90%, auto); */
   /* width: calc(auto - 1rem); */
   /* min-width: 90%; */
   /* max-width: 90%; */
   /* max-width: min(90%, 375px); */
   /* padding-bottom: 1rem; */
-
 }
 
 .face-bounding-box {
