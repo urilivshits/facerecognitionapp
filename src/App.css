@@ -168,7 +168,7 @@ section {
   /* transform: scaleX(6) scaleY(3) ; */
 }
 
-.container-face {
+.container-face > .container-face-child {
   /* width: 100%; */
   /* display: block;
   margin-left: auto;
@@ -325,6 +325,7 @@ td {
 
   .btn-close-lboard {
     left: 45%;
-    top: -7%;
+    transform: translateY(-30%);
+    /* top: -7%; */
   }
 }
