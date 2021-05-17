@@ -174,7 +174,7 @@ section {
   margin-left: auto;
   margin-right: auto; */
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   justify-content: center;
 }
 
@@ -189,7 +189,7 @@ section {
 
 #inputImage {
   border-radius: 0.5rem;
-  width: 100%;
+  max-height: initial;
   /* width: clamp(360px, 90%, 720px); */
   /* max-width: max(360px, 90%); */
   /* max-width: clamp(340px, 100%, 1072px); */
@@ -335,11 +335,11 @@ td {
 
   .lboard-bg > table {
     font-size: var(--font-size-primary);
-    transform: initial;
+    transform: translateY(-5%);
   }
 
   .btn-close-lboard {
-    left: 45%;
+    left: 44%;
     /* transform: translateY(-60%); */
     /* top: -7%; */
   }
