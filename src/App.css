@@ -176,6 +176,7 @@ section {
 #inputImage {
   border-radius: 0.5rem;
   width: 100%;
+  min-height: 100%;
   /* max-height: clamp(340px, 90%, 1072px); */
   /* width: clamp(360px, 90%, 720px); */
   /* max-width: max(360px, 90%); */
