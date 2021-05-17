@@ -173,18 +173,10 @@ section {
   max-width: clamp(330px, 90%, 1072px);
 }
 
-.container-face-child {
-  position: absolute;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-width: clamp(330px, 90%, 1072px);
-
-}
-
 #inputImage {
-  max-height: clamp(340px, 90%, 1072px);
   border-radius: 0.5rem;
+  width: 100%;
+  /* max-height: clamp(340px, 90%, 1072px); */
   /* width: clamp(360px, 90%, 720px); */
   /* max-width: max(360px, 90%); */
   /* max-width: clamp(340px, 100%, 1072px); */
