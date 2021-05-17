@@ -189,9 +189,10 @@ section {
 
 #inputImage {
   border-radius: 0.5rem;
+  width: 100%;
   /* width: clamp(360px, 90%, 720px); */
   /* max-width: max(360px, 90%); */
-  max-width: clamp(340px, 100%, 1072px);
+  /* max-width: clamp(340px, 100%, 1072px); */
   /* max-height: 400px; */
   /* margin: auto; */
   /* max-width: min(90%, auto); */
@@ -294,7 +295,8 @@ td {
   /* padding-right: 2rem; */
   position: relative;
   left: 50%;
-  top: -4%;
+  /* top: -4%; */
+  transform: translateY(-60%);
 }
 
 @media (max-width: 833px) {
@@ -333,11 +335,12 @@ td {
 
   .lboard-bg > table {
     font-size: var(--font-size-primary);
+    transform: initial;
   }
 
   .btn-close-lboard {
     left: 45%;
-    transform: translateY(-60%);
+    /* transform: translateY(-60%); */
     /* top: -7%; */
   }
 }
