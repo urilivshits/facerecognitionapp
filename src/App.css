@@ -191,7 +191,7 @@ section {
   border-radius: 0.5rem;
   /* width: clamp(360px, 90%, 720px); */
   /* max-width: max(360px, 90%); */
-  /* max-width: clamp(360px, 90%, 1072px); */
+  max-width: clamp(340px, 100%, 1072px);
   /* max-height: 400px; */
   /* margin: auto; */
   /* max-width: min(90%, auto); */
