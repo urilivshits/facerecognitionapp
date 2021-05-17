@@ -168,7 +168,7 @@ section {
   /* transform: scaleX(6) scaleY(3) ; */
 }
 
-.container-face > .container-face-child {
+.container-face {
   /* width: 100%; */
   /* display: block;
   margin-left: auto;
@@ -178,9 +178,21 @@ section {
   justify-content: center;
 }
 
+.container-face-child {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: clamp(340px, 90%, 1072px);
+
+}
+
 #inputImage {
   border-radius: 0.5rem;
-  max-height: 400px;
+  /* width: clamp(360px, 90%, 720px); */
+  /* max-width: max(360px, 90%); */
+  /* max-width: clamp(360px, 90%, 1072px); */
+  /* max-height: 400px; */
   /* margin: auto; */
   /* max-width: min(90%, auto); */
   /* width: calc(auto - 1rem); */
@@ -325,7 +337,7 @@ td {
 
   .btn-close-lboard {
     left: 45%;
-    transform: translateY(-30%);
+    transform: translateY(-60%);
     /* top: -7%; */
   }
 }
