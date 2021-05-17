@@ -37,6 +37,7 @@ class SignIn extends Component {
             if (user.id) {
                 this.props.loadUser(user);
                 this.props.onRouteChange("home");
+                localStorage.setItem("user", JSON.stringify(user)); //need to stringify to pass an object
             }
         //initial way
         // .then(data => {
@@ -44,6 +45,17 @@ class SignIn extends Component {
         //         this.props.onRouteChange("home");
         //     }
         })
+    };
+
+    componentDidMount () {
+        const loggedInUser = localStorage.getItem("user");
+        if (loggedInUser) {
+            const foundUser = JSON.parse(loggedInUser); //need to parse to return an object
+            this.props.loadUser(foundUser);
+            this.props.onRouteChange("home");
+            // console.log(foundUser);
+            // console.log(localStorage);
+        }
     };
 
     render () {

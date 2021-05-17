@@ -131,8 +131,18 @@ class App extends Component {
             // this.setState({user: {entries: response}})
             //this way it will update the user object without erasing the {name}
             //Object.assign() allows us to update the object without recreating it
-            this.setState(Object.assign(this.state.user, {entries: response}))
-            this.setState({isHidden: false})
+            this.setState(Object.assign(this.state.user, {entries: response[0].entries}));
+            this.setState({isHidden: false});
+            
+            //updating entries count and lastactive on localStorage
+            const loggedInUser = localStorage.getItem("user");
+            if (loggedInUser) {
+                const foundUser = JSON.parse(loggedInUser); //need to parse to return an object
+                // console.log(foundUser);
+                foundUser.entries = response[0].entries;
+                foundUser.lastactive =response[0].lastactive;
+                localStorage.setItem("user", JSON.stringify(foundUser)); //need to stringify to pass an object
+            }
           })
         };
       }
@@ -143,6 +153,7 @@ class App extends Component {
   onRouteChange = (route) => {
     if (route === "SignIn") {
       this.setState({isSignedIn: false, imageUrl: "", boxFaces: [], input: ""});
+      localStorage.clear();
     }
     else if (route === "home") {
       this.setState({isSignedIn: true});
