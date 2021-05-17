@@ -93,14 +93,6 @@ section {
   line-height: 1;
 }
 
-/* .container-logo-and-text {
-  width: min(100%, 72rem);
-}
-
-.container-input {
-  width: min(100%, 72rem);
-} */
-
 .bg-input {
   padding: 2rem;
   padding-bottom: 1rem;
@@ -173,9 +165,12 @@ section {
   /* display: block;
   margin-left: auto;
   margin-right: auto; */
+  position: absolute;
   display: flex;
-  /* flex-wrap: wrap; */
+  flex-wrap: wrap;
   justify-content: center;
+  width: 100%;
+  max-width: clamp(330px, 90%, 1072px);
 }
 
 .container-face-child {
@@ -183,13 +178,13 @@ section {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  max-width: clamp(340px, 90%, 1072px);
+  max-width: clamp(330px, 90%, 1072px);
 
 }
 
 #inputImage {
+  max-height: clamp(340px, 90%, 1072px);
   border-radius: 0.5rem;
-  max-height: initial;
   /* width: clamp(360px, 90%, 720px); */
   /* max-width: max(360px, 90%); */
   /* max-width: clamp(340px, 100%, 1072px); */

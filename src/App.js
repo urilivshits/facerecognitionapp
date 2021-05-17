@@ -158,8 +158,8 @@ class App extends Component {
         {
         this.state.route === "home" 
           ? 
-          <div className="">
-            <section className="container-logo-and-text">
+          <div>
+            <section>
               <Logo onRouteChange={this.onRouteChange}/>
               <Rank name={this.state.user.name} entries={this.state.user.entries} faces={this.state.boxFaces.length}/>
             </section>

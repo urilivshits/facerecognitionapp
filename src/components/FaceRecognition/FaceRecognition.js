@@ -28,13 +28,13 @@ const FaceRecognition = ({imageUrl, box, boxFaces, isHidden}) => {
     };
     
     return (
-    <div className="container-face">
-        <div className="container-face-child">
+    <section>
+        <div className="container-face">
             <img id="inputImage" alt="" src={imageUrl}/>
             {/* <div className="bounding-box" style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol}}></div> */}
             {detectAllFaces()}
         </div>
-    </div>
+    </section>
     )
 };
 
